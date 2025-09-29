@@ -13,8 +13,7 @@ body {
 header {
   color: #785840;
   padding: 1rem;
-  text-align: center;
-  border-bottom: 1px solid #785840;
+  text-align: center; 
 }
 
 .header-content {
@@ -47,6 +46,11 @@ header {
 
 nav {
   text-align: center;
+  background-color: #EDEAE3;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #785840;
 }
 
 nav a {
@@ -144,10 +148,9 @@ footer {
 
 @media (max-width: 500px) {
   nav a {
-    color: #785840;
-    font-size: 1.3rem;
+    font-size: 0.8rem;
     text-decoration: none;
-    margin: 0 12px;
+    margin: 0 13px;
     white-space: nowrap; 
   }
 
