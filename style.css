@@ -5,40 +5,41 @@
 
 body {
   font-family: Book Antiqua;
-  font-size: larger;
   margin: 0;
   padding: 0;
   background-color: #EDEAE3;
 }
 
 header {
+  font-size: x-large;
   background-color: #EDEAE3;
   color: #785840;
   padding: 1rem;
   text-align: center;
+  border-bottom: 1px solid #785840;
 }
 
 .header-top {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   margin-bottom: 0.5rem; 
 }
 
 .logo {
-  width: 80px;
+  width: 60px;
   height: auto;
 }
 
 nav {
   text-align: center;
-  margin: 0 8px;
 }
 
 nav a {
   color: #785840;
   text-decoration: none;
-  margin: 0 10px;
+  margin: 0 30px;
 }
 
 main {
