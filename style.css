@@ -106,7 +106,7 @@ h2 {
 
 .card h3 {
   font-weight: normal;
-  font-size: xx-large;
+  font-size: 1.7rem;
   margin: 0.5rem 0;
   color: #785840;
 }
@@ -120,7 +120,7 @@ h2 {
 
 
 .price {
-  font-size: 2rem;
+  font-size: 1.7rem;
   color: #5a4a3a;
   margin: 0.5rem 0;
 }
@@ -134,7 +134,7 @@ h2 {
   padding: 8px 16px;
   border-radius: 6px; 
   cursor: pointer;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   margin-top: 0.5rem;
 }
 
@@ -142,11 +142,32 @@ h2 {
   background-color: #604835;
 }
 
+.card button.in-cart {
+  background-color: #256713;
+  cursor: default;
+}
+
 footer {
   text-align: center;
 }
 
+
+
 @media (max-width: 500px) {
+
+  .logo {
+    width: 50px;
+    height: auto;
+  }
+
+  header {
+    padding: 1rem 1rem 0rem;
+  }
+  
+  .header-content {
+    margin-bottom: 0rem;
+  }
+
   nav a {
     font-size: 0.8rem;
     text-decoration: none;
@@ -156,6 +177,7 @@ footer {
 
   .header-center{
     font-size: 1rem;
+    margin-bottom: 0rem;
   }
 
   .decor-left,
@@ -178,15 +200,11 @@ footer {
 
   nav {
     text-align: center;
-    padding: 0.5rem 0;
+    padding: 0 0 0.5rem;
   }
 
   .card { 
     max-width: 90%;
   }
   
-  .card button{
-    font-size: 1.3rem
-  }
-
 }

@@ -23,8 +23,8 @@
     </div>
   </header>
   <nav>
-      <a href="#">Главная</a> 
-      <a href="#">Корзина</a>
+      <a href="index.html">Главная</a> 
+      <a href="cart.html" id="cart-link">Корзина</a>
       <a href="#">Об Особняке</a>
       <a href="#">Контакты</a>
   </nav>
@@ -35,7 +35,7 @@
       
       <div class="gallery">
 
-        <article class="card">
+        <article class="card" data-id="zakat-val-d-orcha">
           <img src="image.png" alt="Закат в Валь д'Орча">
           <h3>Закат в Валь д'Орча</h3>
           <h4>Автор: Сергеев А. С.</h4>
@@ -43,7 +43,7 @@
           <button type="button">Добавить в корзину</button>
         </article>
 
-        <article class="card">
+        <article class="card" data-id="ulochki-sieny">
           <img src="image-1.png" alt="Улочки Сиены">
           <h3>Улочки Сиены</h3>
           <h4>Автор: Сергеев А. С.</h4>
@@ -51,7 +51,7 @@
           <button type="button">Добавить в корзину</button>
         </article>
 
-        <article class="card">
+        <article class="card" data-id="progulka">
           <img src="image-2.png" alt="Прогулка">
           <h3>Прогулка</h3>
           <h4>Автор: Пименов В. В.</h4>
@@ -59,7 +59,7 @@
           <button type="button">Добавить в корзину</button>
         </article>
 
-        <article class="card">
+        <article class="card" data-id="prostori-italii">
           <img src="image-3.png" alt="Просторы Италии">
           <h3>Просторы Италии</h3>
           <h4>Автор: Позднякова А. М.</h4>
@@ -67,7 +67,7 @@
           <button type="button">Добавить в корзину</button>
         </article>
 
-        <article class="card">
+        <article class="card" data-id="krasota-bez-izyanov">
           <img src="image-4.png" alt="Красота без изъянов">
           <h3>Красота без изъянов</h3>
           <h4>Автор: Лошкарева С. Г.</h4>
@@ -84,6 +84,71 @@
     <p>&copy; 2025 Галерея Особняка Брюллова | Выполнил: Вабищевич А. В.
     </p>
   </footer>
+
+<script>
+  function getCartSet() {
+    const cart = localStorage.getItem('cart');
+    return cart ? new Set(JSON.parse(cart)) : new Set();
+  }
+
+  function saveCartSet(cartSet) {
+    localStorage.setItem('cart', JSON.stringify(Array.from(cartSet)));
+  }
+
+  function updateCartLink() {
+    const cart = getCartSet();
+    const link = document.getElementById('cart-link');
+    if (link) {
+      link.textContent = cart.size > 0 ? `Корзина (${cart.size})` : 'Корзина';
+    }
+  }
+
+  function initButtons() {
+    const cart = getCartSet();
+    document.querySelectorAll('.card').forEach(card => {
+      const id = card.dataset.id;
+      const button = card.querySelector('button');
+      if (!button) return;
+
+      if (cart.has(id)) {
+        button.textContent = 'В корзине';
+        button.style.backgroundColor = '#256713';
+        button.disabled = false; 
+      } else {
+        button.textContent = 'Добавить в корзину';
+        button.style.backgroundColor = '#785840';
+      }
+
+      button.removeEventListener('click', handleButtonClick);
+      button.addEventListener('click', handleButtonClick);
+    });
+  }
+
+  function handleButtonClick() {
+    const card = this.closest('.card');
+    const id = card.dataset.id;
+    const cart = getCartSet();
+
+    if (cart.has(id)) {
+      cart.delete(id);
+      this.textContent = 'Добавить в корзину';
+      this.style.backgroundColor = '#785840';
+    } else {
+      cart.add(id);
+      this.textContent = 'В корзине';
+      this.style.backgroundColor = '#256713';
+    }
+
+    saveCartSet(cart);
+    updateCartLink();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateCartLink();
+    initButtons();
+  });
+</script>
+
 </body>
   
 </html>
