@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Корзина — Галерея Особняка Брюллова</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <img src="uzorleft.png" alt="" class="decor-left" />
+      <div class="header-center">
+        <img src="favicon.png" alt="Лого" class="logo" />
+        <h1>Галерея Особняка Брюллова</h1>
+      </div>
+      <img src="uzorright.png" alt="" class="decor-right" />
+    </div>
+  </header>
+
+  <nav>
+    <a href="index.html">Главная</a> 
+    <a href="cart.html">Корзина</a>
+    <a href="#">Об Особняке</a>
+    <a href="#">Контакты</a>
+  </nav>
+
+  <main>
+    <div id="cart-items"></div>
+    <div id="cart-total" class="cart-total"></div>
+    <button id="checkout-btn" class="checkout-btn" style="display:none;">Оформить заказ</button>
+    <a href="index.html" class="back-to-gallery">← Вернуться в галерею</a>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Галерея Особняка Брюллова | Выполнил: Вабищевич А. В.</p>
+  </footer>
+
+<script>
+  // Каталог всех картин (должен совпадать с data-id в index.html)
+  const paintings = {
+    "zakat-val-d-orcha": { title: "Закат в Валь д'Орча", author: "Сергеев А. С.", price: 25000 },
+    "ulochki-sieny": { title: "Улочки Сиены", author: "Сергеев А. С.", price: 12000 },
+    "progulka": { title: "Прогулка", author: "Пименов В. В.", price: 8300 },
+    "prostori-italii": { title: "Просторы Италии", author: "Позднякова А. М.", price: 7100 },
+    "krasota-bez-izyanov": { title: "Красота без изъянов", author: "Лошкарева С. Г.", price: 19000 }
+  };
+
+  function getCartSet() {
+    const cart = localStorage.getItem('cart');
+    return cart ? new Set(JSON.parse(cart)) : new Set();
+  }
+
+  function saveCartSet(cartSet) {
+    localStorage.setItem('cart', JSON.stringify(Array.from(cartSet)));
+  }
+
+  function renderCart() {
+    const cart = getCartSet();
+    const cartItemsEl = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    if (cart.size === 0) {
+      cartItemsEl.innerHTML = '<p class="empty-cart">Ваша корзина пуста</p>';
+      cartTotalEl.style.display = 'none';
+      checkoutBtn.style.display = 'none';
+      return;
+    }
+
+    cartTotalEl.style.display = 'block';
+    checkoutBtn.style.display = 'block';
+
+    let html = '';
+    let total = 0;
+
+    cart.forEach(id => {
+      const item = paintings[id];
+      if (!item) return;
+      total += item.price;
+      html += `
+        <div class="cart-item">
+          <div>
+            <strong>${item.title}</strong><br>
+            <em>${item.author}</em>
+          </div>
+          <div>
+            ${item.price.toLocaleString('ru-RU')} руб.
+            <button class="remove-btn" data-id="${id}">🗑️</button>
+          </div>
+        </div>
+      `;
+    });
+
+    cartItemsEl.innerHTML = html;
+    cartTotalEl.textContent = `Итого: ${total.toLocaleString('ru-RU')} руб.`;
+
+    document.querySelectorAll('.remove-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        const id = this.dataset.id;
+        const cart = getCartSet();
+        cart.delete(id);
+        saveCartSet(cart);
+        renderCart(); 
+      });
+    });
+  }
+
+  document.getElementById('checkout-btn').addEventListener('click', () => {
+    const total = Array.from(getCartSet()).reduce((sum, id) => sum + (paintings[id]?.price || 0), 0);
+    if (total === 0) return;
+
+    alert(`Спасибо за заказ!\nОбщая сумма: ${total.toLocaleString('ru-RU')} руб.`);
+    localStorage.removeItem('cart');
+    renderCart();
+  });
+
+  document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+  
+</body>
+
+</html>
